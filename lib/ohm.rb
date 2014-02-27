@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 require "msgpack"
-require "nido"
+require "ook"
 require "redic"
 require "securerandom"
 require_relative "ohm/command"
@@ -800,7 +800,7 @@ module Ohm
     #   http://github.com/soveran/nido
     #
     def self.key
-      @key ||= Nido.new(self.name)
+      @key ||= Ook.new(redis, name)
     end
 
     # Retrieve a record by ID.
@@ -1198,7 +1198,7 @@ module Ohm
     # 2. That they represent the same Redis key.
     #
     def ==(other)
-      other.kind_of?(model) && other.key == key
+      other.kind_of?(model) && other.key.to_s == key.to_s
     rescue MissingID
       false
     end
@@ -1288,7 +1288,7 @@ module Ohm
     #   # => true
     #
     def hash
-      new? ? super : key.hash
+      new? ? super : key.to_s.hash
     end
     alias :eql? :==
 
@@ -1409,7 +1409,7 @@ module Ohm
       script(LUA_DELETE, 0,
         { "name" => model.name,
           "id" => id,
-          "key" => key
+          "key" => key.to_s
         }.to_msgpack,
         uniques.to_msgpack,
         model.tracked.to_msgpack

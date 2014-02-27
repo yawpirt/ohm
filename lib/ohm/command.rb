@@ -32,11 +32,11 @@ module Ohm
 
   private
     def subcommands
-      args.select { |arg| arg.respond_to?(:call) }
+      args.select { |arg| arg.kind_of?(Command) }
     end
 
     def params(nido, redis)
-      args.map { |arg| arg.respond_to?(:call) ? arg.call(nido, redis) : arg }
+      args.map { |arg| arg.kind_of?(Command) ? arg.call(nido, redis) : arg }
     end
 
     def newkey(nido, redis)

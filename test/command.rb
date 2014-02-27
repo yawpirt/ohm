@@ -5,7 +5,7 @@ scope do
     redis = Redic.new
     redis.call("FLUSHDB")
 
-    nido = Nido.new("User:tmp")
+    nido = Ook.new(redis, "User:tmp")
 
     [1, 2, 3].each { |i| redis.call("SADD", "A", i) }
     [1, 4, 5].each { |i| redis.call("SADD", "B", i) }

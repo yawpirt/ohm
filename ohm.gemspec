@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "ohm"
 
   s.add_dependency "redic"
-  s.add_dependency "nido"
+  s.add_dependency "ook"
   s.add_dependency "msgpack"
 
   s.add_development_dependency "cutest"
