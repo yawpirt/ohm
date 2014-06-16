@@ -14,7 +14,11 @@ Gem::Specification.new do |s|
 
   s.add_dependency "redic"
   s.add_dependency "nido"
-  s.add_dependency "msgpack"
+  if RUBY_PLATFORM == 'java'
+    s.add_dependency "msgpack-jruby"
+  else
+    s.add_dependency "msgpack"  
+  end
 
   s.add_development_dependency "cutest"
 end
